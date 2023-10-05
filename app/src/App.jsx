@@ -6,8 +6,8 @@ import * as Yup from 'yup';
 
 const validationSchema = Yup.object().shape({
   title: Yup.string().required('Title is required'),
-  description: Yup.string().required('Description is required').min(5,"Description shouyld be atleast 5 char"),
-  ratings: Yup.number().required('Ratings is required').max(10,"rating cannot be greater than 10"),
+  description: Yup.string().required('Description is required').min(5,"Description should be at least 5 characters"),
+  ratings: Yup.number().required('Ratings is required').max(10,"Rating cannot be greater than 10"),
   url: Yup.string().url('Enter a valid URL').required('URL is required'),
 });
 
@@ -19,9 +19,37 @@ function App() {
     url: '',
   };
 
-  const handleSubmit = (values) => {
+  const handleSubmit = (values, { resetForm }) => {
     // Handle form submission here
     console.log(values);
+
+    // Create a card element with the form values
+    const card = document.createElement('div');
+    card.classList.add('card');
+
+    const title = document.createElement('h2');
+    title.textContent = values.title;
+
+    const description = document.createElement('p');
+    description.textContent = values.description;
+
+    const ratings = document.createElement('p');
+    ratings.textContent = `Ratings: ${values.ratings}`;
+
+    const url = document.createElement('img');
+    url.src = values.url;
+    url.alt = 'Image';
+
+    card.appendChild(title);
+    card.appendChild(description);
+    card.appendChild(ratings);
+    card.appendChild(url);
+
+    
+    document.querySelector(".card").appendChild(card);
+
+
+    resetForm();
   };
 
   return (
@@ -85,6 +113,7 @@ function App() {
           </Form>
         )}
       </Formik>
+      <div className="card"></div>
     </div>
   );
 }
